@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 export default class GridCell extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   render() {
     const styles = {
@@ -23,7 +20,6 @@ export default class GridCell extends Component {
       },
     }
 
-    // console.log(this.props.id);
     return (
       <div style={ styles.cell (this.props.life === "dead") ? styles.dead : styles.alive }></div>
     );
