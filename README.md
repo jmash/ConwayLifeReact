@@ -5,8 +5,8 @@ library.
 
 ## Installing
 
--- $git clone https://github.com/jmash/ConwayLifeReact.git
--- $cd <cloned directory>
--- $npm install
--- $npm start
--- navigate to localhost:3000 using browser
+1. $git clone https://github.com/jmash/ConwayLifeReact.git
+2. $cd <cloned directory>
+3. $npm install
+4. $npm start
+5. navigate to localhost:3000 using browser
