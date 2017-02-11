@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
+import update from 'react-addons-update';
 
 export default class ControlPanel extends Component {
   constructor(props) {
@@ -9,6 +10,12 @@ export default class ControlPanel extends Component {
       gridSizeX: 30,
       gridSizeY: 30,
       cellSize: 25,
+      drawFlags: {
+        paint: false,
+        toggle: false,
+        clear: false,
+        stamp: false,
+      }
     };
   }
 
@@ -16,7 +23,26 @@ export default class ControlPanel extends Component {
     this.setState({ cellSize: Number(e.target.value) })
   };
 
+  handleDrawOptionClick = (e) => {
+    // this.uncheckDrawOptions();
 
+  };
+
+  handleDrawOptionChange = (e) => {
+    let clearedFlags = {
+      paint: false,
+      toggle: false,
+      clear: false,
+      stamp: false,
+    };
+    console.log(e.target.id);
+    this.setState({
+      drawFlags: clearedFlags
+    }, this.setState({
+      drawFlags: update(this.state.drawFlags, {[e.target.id]: {$set: true}})
+    }));
+    console.log(this.state.drawFlags)
+  }
 
   render() {
     const styles = {
@@ -24,7 +50,7 @@ export default class ControlPanel extends Component {
 
       },
       controlpanel: {
-        height:70,
+        // height:70,
         width:"100%",
         background:"grey",
         opacity:"0.7",
@@ -47,6 +73,9 @@ export default class ControlPanel extends Component {
       },
       slidersSection: {
         display:"inline-block"
+      },
+      radioSection: {
+        display:"block"
       },
       options_h3: {
         margin:0,
@@ -76,6 +105,12 @@ export default class ControlPanel extends Component {
                     step={ 1 }
               />
             </div>
+            <div style={ styles.radioSection }>
+              <label>Paint<input checked={ this.state.drawFlags.paint } type="radio" value="Paint" id="paint" onChange={ this.handleDrawOptionChange }/></label>
+              <label>Toggle<input checked={ this.state.drawFlags.toggle } type="radio" value="Toggle" id="toggle" onChange={ this.handleDrawOptionChange} /></label>
+              <label>Clear<input checked={ this.state.drawFlags.clear } type="radio" value="Clear" id="clear" onChange={ this.handleDrawOptionChange} /></label>
+              <label>Stamp<input checked={ this.state.drawFlags.stamp } type="radio" value="Stamp" id="stamp" onChange={ this.handleDrawOptionChange} /></label>
+            </div>
           </div>
         </div>
         <Grid
@@ -87,3 +122,4 @@ export default class ControlPanel extends Component {
     );
   }
 }
+/*onClick={ this.handleDrawOptionClick }*/

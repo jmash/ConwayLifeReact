@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GridCell from './GridCell';
+import update from 'react-addons-update';
 
 export default class Grid extends Component {
   constructor(props) {
@@ -7,15 +8,19 @@ export default class Grid extends Component {
 
     this.state = {
       lifeGrid: (function(gridSizeX, gridSizeY) {
-        const xs = new Array(gridSizeX).fill({life: "alive"});
+        const xs = new Array(gridSizeX).fill({life: "dead"});
         const ys = new Array(gridSizeY).fill(xs);
         return ys;
       })(this.props.gridSizeX, this.props.gridSizeY)
     }
   }
 
-  handleCellClick = (e) => {
-    console.log(e);
+  handleCellClick = (x, y) => {
+    console.log(x);
+    console.log(y);
+    this.setState({
+      lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'alive'}}}})
+    });
   }
 
   updateGrid() {
@@ -49,18 +54,16 @@ export default class Grid extends Component {
       for (let j = 0; j < Number(y); j++) {
         cells.push(<GridCell key={ i + "_" + j }
                    id={ i + "_" + j }
-                   x={ i }
-                   y={ j }
+                   x={ j }
+                   y={ i }
                    cellSize={ this.props.cellSize }
-                   life={ (this.state.lifeGrid[i][j].life === "dead") ? styles.dead : styles.alive }
+                   life={ (this.state.lifeGrid[i][j].life === "dead") ? "dead" : "alive" }
                    onClick={ this.handleCellClick.bind(this) }
                  />)
       }
       var row = React.createElement('div', { style: styles.row, key: i }, cells);
-      // console.log(row);
       rows.push(row);
     }
-    // console.log(rows);
     return (
       <div style={ styles.grid }>{ rows }</div>
     )
