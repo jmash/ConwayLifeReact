@@ -16,11 +16,33 @@ export default class Grid extends Component {
   }
 
   handleCellClick = (x, y) => {
-    console.log(x);
-    console.log(y);
-    this.setState({
-      lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'alive'}}}})
-    });
+    console.log(this.state.lifeGrid[y][x].life)
+    switch(this.props.drawFlag) {
+      case "paint":
+        this.setState({
+          lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'alive'}}}})
+        });
+        break;
+      case "toggle":
+        console.log(this.state.lifeGrid[y][x].life);
+        if (this.state.lifeGrid[y][x].life === 'dead') {
+          console.log("entering first toggle case");
+          this.setState({
+            lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'alive'}}}})
+          }, function() {  });
+        } else {
+          console.log("entering second toggle case");
+          this.setState({
+            lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'dead'}}}})
+          });
+        }
+        break;
+      case "clear":
+          this.setState({
+            lifeGrid: update(this.state.lifeGrid, {[y]: {[x]: {life: {$set: 'dead'}}}})
+          });
+        break;
+    }
   }
 
   updateGrid() {

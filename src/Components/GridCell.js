@@ -26,7 +26,6 @@ export default class GridCell extends Component {
         background:"white",
       },
     }
-
     return (
       <div onClick={ this.clickEventHandler.bind(this, this.props.x, this.props.y) } style={ (this.props.life === "dead") ? styles.dead : styles.alive }></div>
     );
